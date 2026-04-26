@@ -15,18 +15,20 @@ jobs:
         with:
           ref: master
 
+      - name: Debug - show requirements.txt
+        run: cat requirements.txt
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-
       - name: Install dependencies
         run: pip install --no-cache-dir -r requirements.txt
+
       - name: Run bot
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           ACCT_PASSWD: ${{ secrets.ACCT_PASSWD }}
         run: python app.py
-# updated
