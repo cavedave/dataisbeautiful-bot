@@ -8,7 +8,7 @@ reddit = praw.Reddit(client_id=os.environ['CLIENT_ID'],
                      user_agent='r/dataisbeautiful bot (https://github.com/r-dataisbeautiful/dataisbeautiful-bot)',
                     username='cavedave')
 
-for submission in reddit.subreddit('dataisbeautiful').new(limit=100):
+for submission in reddit.subreddit('dataisbeautiful').new(limit=1000):
     if (re.search('[\[\(\{][oO][cC][\]\)\}]',submission.title) is not None) and (submission.saved is False) and (submission.approved_by is not None):
             for comment in submission.comments:
                 if comment.is_submitter and comment.is_root:
