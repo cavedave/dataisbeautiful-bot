@@ -2,8 +2,8 @@ name: Run dataisbeautiful bot
 
 on:
   schedule:
-    - cron: '7 6 * * *'  # once a day at a quiet time on reddit
-  workflow_dispatch:       # allows manual trigger from GitHub UI
+    - cron: '7 6 * * *'
+  workflow_dispatch:
 
 jobs:
   run-bot:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: master
 
       - name: Set up Python
         uses: actions/setup-python@v5
