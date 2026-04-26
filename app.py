@@ -6,7 +6,7 @@ reddit = praw.Reddit(client_id=os.environ['CLIENT_ID'],
                      client_secret=os.environ['CLIENT_SECRET'],
                      password=os.environ['ACCT_PASSWD'],
                      user_agent='r/dataisbeautiful bot (https://github.com/r-dataisbeautiful/dataisbeautiful-bot)',
-                    username='Foreign-Decision-797')
+                    username='cavedave')
 
 for submission in reddit.subreddit('dataisbeautiful').new(limit=100):
     if (re.search('[\[\(\{][oO][cC][\]\)\}]',submission.title) is not None) and (submission.saved is False) and (submission.approved_by is not None):
