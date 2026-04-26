@@ -20,9 +20,9 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
 
+      - name: Install dependencies
+        run: pip install --no-cache-dir -r requirements.txt
       - name: Run bot
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
