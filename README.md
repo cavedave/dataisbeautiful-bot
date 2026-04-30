@@ -1,6 +1,6 @@
 # dataisbeautiful-bot
 
-A Reddit bot for [r/dataisbeautiful](https://www.reddit.com/r/dataisbeautiful/) that automatically rewards OC (Original Content) posters with flair and with a sticky comment linking to their citations.
+A Reddit bot for [r/dataisbeautiful](https://www.reddit.com/r/dataisbeautiful/) that automatically rewards OC (Original Content) posters with flair and with a sticky comment linking to their citations. 
 
 This is a maintained fork of [r-dataisbeautiful/dataisbeautiful-bot](https://github.com/r-dataisbeautiful/dataisbeautiful-bot).
 
