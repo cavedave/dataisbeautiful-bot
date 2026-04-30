@@ -39,23 +39,39 @@ def get_submissions(subreddit):
     start_date = os.environ.get('START_DATE')
     end_date = os.environ.get('END_DATE')
 
-    if start_date and end_date:
+    if start_date:
         start_ts = int(time.mktime(time.strptime(start_date, '%Y-%m-%d')))
-        end_ts = int(time.mktime(time.strptime(end_date, '%Y-%m-%d')))
-        log.info(f"Catchup mode: searching {start_date} to {end_date}")
-        return subreddit.search(
-            f'title:OC timestamp:{start_ts}..{end_ts}',
-            sort='new',
-            limit=1000,
-            syntax='cloudsearch'
-        )
+        end_ts = int(time.mktime(time.strptime(end_date, '%Y-%m-%d'))) if end_date else int(time.time())
+        log.info(f"Catchup mode: paginating back to {start_date}")
+
+        last_id = None
+        total = 0
+        while True:
+            params = {'after': f't3_{last_id}'} if last_id else {}
+            batch = list(subreddit.new(limit=100, params=params))
+            if not batch:
+                log.info("No more posts to fetch")
+                break
+
+            for submission in batch:
+                if submission.created_utc > end_ts:
+                    continue
+                if submission.created_utc < start_ts:
+                    log.info(f"Reached start date, stopping pagination after {total} posts")
+                    return
+                total += 1
+                yield submission
+
+            last_id = batch[-1].id
+            log.info(f"Fetched batch, last post date: {time.strftime('%Y-%m-%d', time.gmtime(batch[-1].created_utc))}, total yielded: {total}")
+            time.sleep(1)  # be polite to Reddit API
     else:
         log.info("Normal mode: fetching 1000 newest posts")
-        return subreddit.new(limit=1000)
+        yield from subreddit.new(limit=1000)
 
 def process_submissions():
     subreddit = reddit.subreddit('dataisbeautiful')
-    catchup = os.environ.get('CATCHUP_MODE')
+    catchup = os.environ.get('CATCHUP_MODE', 'false').lower() == 'true'
 
     for submission in get_submissions(subreddit):
         try:
