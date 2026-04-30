@@ -78,10 +78,8 @@ def process_submissions():
             if not OC_PATTERN.search(submission.title):
                 continue
             if submission.saved:
-                log.info(f"SKIP saved: {submission.id}")
                 continue
             if submission.approved_by is None:
-                log.info(f"SKIP not approved: {submission.id} — {submission.title[:50]}")
                 continue
 
             for comment in submission.comments:
